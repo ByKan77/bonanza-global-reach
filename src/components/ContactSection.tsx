@@ -37,7 +37,7 @@ const ContactSection = () => {
               </label>
               <input
                 type="text"
-                className="w-full bg-secondary border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="w-full bg-muted border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
                 placeholder="John Doe"
               />
             </div>
@@ -47,7 +47,7 @@ const ContactSection = () => {
               </label>
               <input
                 type="text"
-                className="w-full bg-secondary border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                className="w-full bg-muted border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
                 placeholder="Acme Corp."
               />
             </div>
@@ -59,7 +59,7 @@ const ContactSection = () => {
             </label>
             <input
               type="email"
-              className="w-full bg-secondary border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+              className="w-full bg-muted border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
               placeholder="john@company.com"
             />
           </div>
@@ -80,7 +80,7 @@ const ContactSection = () => {
                   className={`px-5 py-2.5 rounded-sm font-body text-sm transition-all duration-300 border ${
                     sector === opt.value
                       ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-secondary text-muted-foreground border-border hover:border-muted-foreground"
+                      : "bg-muted text-muted-foreground border-border hover:border-foreground/30"
                   }`}
                 >
                   {opt.label}
@@ -95,14 +95,14 @@ const ContactSection = () => {
             </label>
             <textarea
               rows={4}
-              className="w-full bg-secondary border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none"
+              className="w-full bg-muted border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors resize-none"
               placeholder="Tell us about your logistics needs..."
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-3.5 bg-primary text-primary-foreground rounded-sm font-body text-sm hover:shadow-[0_4px_16px_hsla(43,56%,52%,0.25)] transition-all duration-300"
+            className="w-full py-3.5 bg-primary text-primary-foreground rounded-sm font-body text-sm hover:shadow-[0_4px_16px_hsla(40,56%,52%,0.3)] hover:brightness-110 transition-all duration-300"
           >
             Request a Quote
           </button>
