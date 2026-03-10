@@ -5,7 +5,6 @@ import logo from "@/assets/logo-bonanza.png";
 
 const HeroSection = () => {
   const [phase, setPhase] = useState<"black" | "logo" | "reveal">("black");
-  const letters = "BONANZA".split("");
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase("logo"), 300);
