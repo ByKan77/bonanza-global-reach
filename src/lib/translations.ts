@@ -6,6 +6,7 @@ export const translations = {
       services: "Services",
       network: "Global Network",
       about: "About",
+      partners: "Partners",
       contact: "Contact",
       cta: "Get a Quote",
       languageLabel: "Language",
@@ -62,9 +63,18 @@ export const translations = {
     },
     footer: { rights: "All rights reserved." },
     notFound: { title: "404", message: "Oops! Page not found", backHome: "Return to Home" },
+    aboutPage: {
+      title: "About Bonanza Europe",
+      intro: "Bonanza Europe is a key player in international pharmaceutical logistics and high-value sourcing. We combine regulatory expertise, controlled-temperature supply chain capabilities, and a global network to serve laboratories, distributors, and industrials.",
+      mission: "Our mission is to secure and streamline your international flows while ensuring full compliance with GDP, GMP, and local regulations. We support you from sourcing to last-mile delivery.",
+    },
+    partnersPage: {
+      title: "Our Partners",
+      intro: "We work with trusted partners worldwide to deliver reliable, compliant logistics and sourcing solutions. Our network includes manufacturers, carriers, and regulatory experts across multiple sectors.",
+    },
   },
   fr: {
-    nav: { services: "Services", network: "Réseau mondial", about: "À propos", contact: "Contact", cta: "Demander un devis", languageLabel: "Langue" },
+    nav: { services: "Services", network: "Réseau mondial", about: "À propos", partners: "Partenaires", contact: "Contact", cta: "Demander un devis", languageLabel: "Langue" },
     hero: {
       titleLine1: "Logistique mondiale.",
       titleLine2: "Précision\u00A0pharmaceutique.",
@@ -115,9 +125,18 @@ export const translations = {
     },
     footer: { rights: "Tous droits réservés." },
     notFound: { title: "404", message: "Oups ! Page introuvable", backHome: "Retour à l'accueil" },
+    aboutPage: {
+      title: "À propos de Bonanza Europe",
+      intro: "Bonanza Europe est un acteur majeur de la logistique pharmaceutique internationale et du sourcing à haute valeur. Nous allions expertise réglementaire, chaîne du froid et réseau mondial pour accompagner laboratoires, distributeurs et industriels.",
+      mission: "Notre mission : sécuriser et fluidifier vos flux internationaux tout en garantissant la conformité GDP, GMP et réglementations locales. Nous vous accompagnons du sourcing à la livraison dernier kilomètre.",
+    },
+    partnersPage: {
+      title: "Nos partenaires",
+      intro: "Nous collaborons avec des partenaires de confiance à travers le monde pour offrir des solutions logistiques et d’approvisionnement conformes et fiables. Notre réseau rassemble fabricants, transporteurs et experts réglementaires dans plusieurs secteurs.",
+    },
   },
   de: {
-    nav: { services: "Leistungen", network: "Globales Netzwerk", about: "Über uns", contact: "Kontakt", cta: "Angebot anfordern", languageLabel: "Sprache" },
+    nav: { services: "Leistungen", network: "Globales Netzwerk", about: "Über uns", partners: "Partner", contact: "Kontakt", cta: "Angebot anfordern", languageLabel: "Sprache" },
     hero: {
       titleLine1: "Globale Logistik.",
       titleLine2: "Pharma-Präzision.",
@@ -168,9 +187,11 @@ export const translations = {
     },
     footer: { rights: "Alle Rechte vorbehalten." },
     notFound: { title: "404", message: "Seite nicht gefunden", backHome: "Zurück zur Startseite" },
+    aboutPage: { title: "Über Bonanza Europe", intro: "Bonanza Europe ist ein wichtiger Akteur in der internationalen Pharmalogistik und bei High-Value-Sourcing. Wir verbinden regulatorische Expertise, kühlgeführte Lieferketten und ein globales Netzwerk für Labore, Händler und Industrie.", mission: "Unsere Mission: Ihre internationalen Flüsse absichern und vereinfachen bei voller Einhaltung von GDP, GMP und lokalen Vorschriften. Wir begleiten Sie vom Sourcing bis zur letzten Meile." },
+    partnersPage: { title: "Unsere Partner", intro: "Wir arbeiten weltweit mit vertrauenswürdigen Partnern zusammen, um zuverlässige, konforme Logistik- und Beschaffungslösungen zu liefern. Unser Netzwerk umfasst Hersteller, Transporteure und Regulierungsexperten in mehreren Branchen." },
   },
   es: {
-    nav: { services: "Servicios", network: "Red global", about: "Acerca de", contact: "Contacto", cta: "Pedir presupuesto", languageLabel: "Idioma" },
+    nav: { services: "Servicios", network: "Red global", about: "Acerca de", partners: "Socios", contact: "Contacto", cta: "Pedir presupuesto", languageLabel: "Idioma" },
     hero: {
       titleLine1: "Logística global.",
       titleLine2: "Precisión farmacéutica.",
@@ -221,9 +242,11 @@ export const translations = {
     },
     footer: { rights: "Todos los derechos reservados." },
     notFound: { title: "404", message: "¡Ups! Página no encontrada", backHome: "Volver al inicio" },
+    aboutPage: { title: "Acerca de Bonanza Europe", intro: "Bonanza Europe es un actor clave en la logística farmacéutica internacional y el aprovisionamiento de alto valor. Combinamos experiencia regulatoria, cadena de frío y red global para laboratorios, distribuidores e industriales.", mission: "Nuestra misión: asegurar y simplificar sus flujos internacionales garantizando el cumplimiento GDP, GMP y normativas locales. Le acompañamos desde el aprovisionamiento hasta la última milla." },
+    partnersPage: { title: "Nuestros socios", intro: "Trabajamos con socios de confianza en todo el mundo para ofrecer soluciones logísticas y de aprovisionamiento conformes y fiables. Nuestra red incluye fabricantes, transportistas y expertos regulatorios en varios sectores." },
   },
   it: {
-    nav: { services: "Servizi", network: "Rete globale", about: "Chi siamo", contact: "Contatti", cta: "Richiedi un preventivo", languageLabel: "Lingua" },
+    nav: { services: "Servizi", network: "Rete globale", about: "Chi siamo", partners: "Partner", contact: "Contatti", cta: "Richiedi un preventivo", languageLabel: "Lingua" },
     hero: {
       titleLine1: "Logistica globale.",
       titleLine2: "Precisione farmaceutica.",
@@ -274,6 +297,8 @@ export const translations = {
     },
     footer: { rights: "Tutti i diritti riservati." },
     notFound: { title: "404", message: "Pagina non trovata", backHome: "Torna alla home" },
+    aboutPage: { title: "Chi siamo - Bonanza Europe", intro: "Bonanza Europe è un attore chiave nella logistica farmaceutica internazionale e nel sourcing ad alto valore. Uniamo competenza normativa, catena del freddo e rete globale per laboratori, distributori e industriali.", mission: "La nostra missione: garantire e semplificare i vostri flussi internazionali nel rispetto di GDP, GMP e normative locali. Vi accompagniamo dal sourcing all'ultimo miglio." },
+    partnersPage: { title: "I nostri partner", intro: "Collaboriamo con partner di fiducia in tutto il mondo per offrire soluzioni logistiche e di approvvigionamento conformi e affidabili. La nostra rete include produttori, vettori ed esperti normativi in diversi settori." },
   },
 } as const;
 

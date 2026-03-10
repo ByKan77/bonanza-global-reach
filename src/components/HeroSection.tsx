@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
 import ParticleField from "./ParticleField";
 import { useLanguage } from "@/contexts/LanguageContext";
+import videoEntrepot from "@/assets/video_bonanza/0310.mp4";
 
 const HeroSection = () => {
   const { t } = useLanguage();
   const hero = t.hero;
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-accent">
+    <section id="about" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-accent">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -24,7 +25,16 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
+          className="flex flex-col items-center"
         >
+          <video
+            src={videoEntrepot}
+            className="w-full max-w-[700px] rounded-xl mb-20 object-cover"
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
           <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-light tracking-tight leading-[1.1] mb-6 text-accent-foreground">
             {hero.titleLine1}
             <br />
