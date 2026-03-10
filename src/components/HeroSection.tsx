@@ -1,10 +1,13 @@
 import { motion } from "framer-motion";
 import ParticleField from "./ParticleField";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const HeroSection = () => {
+  const { t } = useLanguage();
+  const hero = t.hero;
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-accent">
-      {/* Particle field */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -14,10 +17,8 @@ const HeroSection = () => {
         <ParticleField />
       </motion.div>
 
-      {/* Grain overlay */}
       <div className="absolute inset-0 grain pointer-events-none" />
 
-      {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -25,15 +26,13 @@ const HeroSection = () => {
           transition={{ delay: 0.2, duration: 0.8 }}
         >
           <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-light tracking-tight leading-[1.1] mb-6 text-accent-foreground">
-            Global Logistics.
+            {hero.titleLine1}
             <br />
-            <span className="text-gradient-gold">Pharmaceutical Precision.</span>
+            <span className="text-gradient-gold">{hero.titleLine2}</span>
           </h1>
 
           <p className="font-body text-lg md:text-xl text-accent-foreground/60 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Spécialiste de l'import-export pharmaceutique, nous mettons notre rigueur
-            et notre réseau mondial au service de vos besoins de sourcing les plus
-            exigeants — quel que soit votre secteur.
+            {hero.subtitle}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -41,19 +40,18 @@ const HeroSection = () => {
               href="#contact"
               className="font-body text-sm px-8 py-3.5 bg-primary text-primary-foreground rounded-sm hover:shadow-[0_4px_16px_hsla(40,56%,52%,0.35)] transition-all duration-300"
             >
-              Get a Quote
+              {hero.ctaQuote}
             </a>
             <a
               href="#expertise"
               className="font-body text-sm px-8 py-3.5 border border-accent-foreground/20 text-accent-foreground rounded-sm hover:bg-accent-foreground/10 transition-all duration-300"
             >
-              Discover Our Expertise
+              {hero.ctaExpertise}
             </a>
           </div>
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

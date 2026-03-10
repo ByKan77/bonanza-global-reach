@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const certifications = [
   "WHO-GMP",
@@ -10,6 +11,9 @@ const certifications = [
 ];
 
 const SocialProof = () => {
+  const { t } = useLanguage();
+  const { eyebrow, stats } = t.socialProof;
+
   return (
     <section id="network" className="relative py-20 bg-background">
       <div className="max-w-6xl mx-auto px-6">
@@ -21,7 +25,7 @@ const SocialProof = () => {
           className="text-center mb-12"
         >
           <p className="font-body text-sm tracking-[0.2em] uppercase text-muted-foreground">
-            Trusted & Certified
+            {eyebrow}
           </p>
         </motion.div>
 
@@ -48,7 +52,6 @@ const SocialProof = () => {
           ))}
         </motion.div>
 
-        {/* Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -56,12 +59,7 @@ const SocialProof = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
         >
-          {[
-            { value: "40+", label: "Countries" },
-            { value: "99.7%", label: "On-time Delivery" },
-            { value: "500+", label: "SKUs Managed" },
-            { value: "24/7", label: "Cold Chain Monitoring" },
-          ].map((stat) => (
+          {stats.map((stat) => (
             <div key={stat.label}>
               <div className="font-display text-3xl md:text-4xl font-light text-gradient-gold mb-2">
                 {stat.value}

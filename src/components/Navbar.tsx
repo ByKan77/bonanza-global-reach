@@ -1,17 +1,29 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/logo-bonanza.png";
+import logo from "@/assets/logo_Bonanza/Bonanza_europe_decoupe.svg";
+import { useLanguage } from "@/contexts/LanguageContext";
+import type { LanguageCode } from "@/lib/translations";
 
 const navLinks = [
-  { label: "Services", href: "#expertise" },
-  { label: "Global Network", href: "#network" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { key: "services" as const, href: "#expertise" },
+  { key: "network" as const, href: "#network" },
+  { key: "about" as const, href: "#about" },
+  { key: "contact" as const, href: "#contact" },
+];
+
+const LANGUAGES: { code: LanguageCode; label: string }[] = [
+  { code: "en", label: "EN" },
+  { code: "fr", label: "FR" },
+  { code: "de", label: "DE" },
+  { code: "es", label: "ES" },
+  { code: "it", label: "IT" },
 ];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
+  const nav = t.nav;
 
   return (
     <motion.nav
@@ -20,40 +32,59 @@ const Navbar = () => {
       transition={{ delay: 0.5, duration: 0.6 }}
       className="fixed top-0 left-0 right-0 z-50 glass-panel-subtle"
     >
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-3">
-          <img src={logo} alt="Bonanza Europe" className="h-10 w-auto" />
+      <div className="max-w-7xl mx-auto pl-4 pr-6 py-2 flex items-center justify-between">
+        <a href="#" className="flex items-center gap-3 flex-shrink-0">
+          <img src={logo} alt="Bonanza Europe" className="h-20 md:h-28 w-auto object-contain" />
         </a>
 
-        {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <a
-              key={link.label}
+              key={link.key}
               href={link.href}
               className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
             >
-              {link.label}
+              {nav[link.key]}
             </a>
           ))}
           <a
             href="#contact"
             className="font-body text-sm px-5 py-2.5 bg-primary text-primary-foreground rounded-sm hover:brightness-110 transition-all duration-300 hover:shadow-[0_4px_16px_hsla(40,56%,52%,0.3)]"
           >
-            Get a Quote
+            {nav.cta}
           </a>
+          <div className="flex items-center gap-2 ml-2">
+            <span className="text-xs text-muted-foreground hidden lg:inline">{nav.languageLabel}</span>
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as LanguageCode)}
+              className="bg-background/80 border border-border rounded-sm px-2 py-1 text-xs font-body text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+              aria-label={nav.languageLabel}
+            >
+              {LANGUAGES.map(({ code, label }) => (
+                <option key={code} value={code}>{label}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden text-foreground"
-        >
-          {open ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        <div className="md:hidden flex items-center gap-2">
+          <select
+            value={language}
+            onChange={(e) => setLanguage(e.target.value as LanguageCode)}
+            className="bg-background/80 border border-border rounded-sm px-2 py-1 text-xs font-body"
+            aria-label={nav.languageLabel}
+          >
+            {LANGUAGES.map(({ code, label }) => (
+              <option key={code} value={code}>{label}</option>
+            ))}
+          </select>
+          <button onClick={() => setOpen(!open)} className="text-foreground">
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile menu */}
       {open && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
@@ -63,12 +94,12 @@ const Navbar = () => {
           <div className="px-6 py-4 flex flex-col gap-4">
             {navLinks.map((link) => (
               <a
-                key={link.label}
+                key={link.key}
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className="font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                {link.label}
+                {nav[link.key]}
               </a>
             ))}
             <a
@@ -76,7 +107,7 @@ const Navbar = () => {
               onClick={() => setOpen(false)}
               className="font-body text-sm px-5 py-2.5 bg-primary text-primary-foreground rounded-sm text-center"
             >
-              Get a Quote
+              {nav.cta}
             </a>
           </div>
         </motion.div>
