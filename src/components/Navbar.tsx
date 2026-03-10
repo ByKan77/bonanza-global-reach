@@ -17,7 +17,7 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 3.2, duration: 0.6 }}
+      transition={{ delay: 0.5, duration: 0.6 }}
       className="fixed top-0 left-0 right-0 z-50 glass-panel-subtle"
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -38,7 +38,7 @@ const Navbar = () => {
           ))}
           <a
             href="#contact"
-            className="font-body text-sm px-5 py-2.5 bg-primary text-primary-foreground rounded-sm hover:bg-[hsl(var(--gold-hover))] transition-all duration-300 hover:shadow-[0_4px_16px_hsla(43,56%,52%,0.25)]"
+            className="font-body text-sm px-5 py-2.5 bg-primary text-primary-foreground rounded-sm hover:brightness-110 transition-all duration-300 hover:shadow-[0_4px_16px_hsla(40,56%,52%,0.3)]"
           >
             Get a Quote
           </a>
