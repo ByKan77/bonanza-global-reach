@@ -1,10 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import ParticleField from "./ParticleField";
+import logo from "@/assets/logo-bonanza.png";
 
 const HeroSection = () => {
   const [phase, setPhase] = useState<"black" | "logo" | "reveal">("black");
-  const letters = "BONANZA".split("");
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase("logo"), 300);
@@ -40,22 +40,17 @@ const HeroSection = () => {
           <motion.div
             className="mb-16"
             initial={{ opacity: 1 }}
-            animate={phase === "reveal" ? { opacity: 0, y: -40 } : {}}
+            animate={phase === "reveal" ? { opacity: 0, y: -40, scale: 0.8 } : {}}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex justify-center gap-1">
-              {letters.map((letter, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 + i * 0.15, duration: 0.4 }}
-                  className="font-display text-5xl md:text-7xl font-light tracking-[0.3em] text-gradient-gold"
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </div>
+            <motion.img
+              src={logo}
+              alt="Bonanza Europe"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="h-28 md:h-40 w-auto mx-auto"
+            />
           </motion.div>
         )}
 
