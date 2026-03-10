@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import ParticleField from "./ParticleField";
+import logo from "@/assets/logo-bonanza.png";
 
 const HeroSection = () => {
   const [phase, setPhase] = useState<"black" | "logo" | "reveal">("black");
