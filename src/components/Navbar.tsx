@@ -8,9 +8,8 @@ import type { LanguageCode } from "@/lib/translations";
 
 const navLinks = [
   { key: "services" as const, href: "/#expertise" },
-  { key: "network" as const, href: "/#network" },
-  { key: "about" as const, to: "/about" as const },
   { key: "partners" as const, to: "/partners" as const },
+  { key: "about" as const, to: "/about" as const },
   { key: "contact" as const, href: "/#contact" },
 ];
 

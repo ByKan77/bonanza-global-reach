@@ -26,13 +26,13 @@ const ParticleField = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    const count = Math.min(80, Math.floor(window.innerWidth / 20));
+    const count = Math.min(100, Math.floor(window.innerWidth / 18));
     particlesRef.current = Array.from({ length: count }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       vx: (Math.random() - 0.5) * 0.3,
       vy: (Math.random() - 0.5) * 0.3,
-      size: Math.random() * 1.5 + 0.5,
+      size: Math.random() * 1.8 + 1.2,
     }));
 
     const draw = () => {
@@ -49,7 +49,7 @@ const ParticleField = () => {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(197, 160, 89, 0.3)";
+        ctx.fillStyle = "rgba(197, 160, 89, 0.65)";
         ctx.fill();
 
         for (let j = i + 1; j < particles.length; j++) {
@@ -61,8 +61,9 @@ const ParticleField = () => {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(197, 160, 89, ${0.1 * (1 - dist / connectionDist)})`;
-            ctx.lineWidth = 0.5;
+            const lineAlpha = 0.28 * (1 - dist / connectionDist);
+            ctx.strokeStyle = `rgba(197, 160, 89, ${lineAlpha})`;
+            ctx.lineWidth = 1;
             ctx.stroke();
           }
         }
@@ -81,7 +82,7 @@ const ParticleField = () => {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 1 }}
     />
   );
 };
