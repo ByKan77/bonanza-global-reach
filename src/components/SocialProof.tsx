@@ -12,7 +12,7 @@ const certifications = [
 
 const SocialProof = () => {
   const { t } = useLanguage();
-  const { eyebrow, stats } = t.socialProof;
+  const { eyebrow, stats, trustLine } = t.socialProof;
 
   return (
     <section id="network" className="relative py-20 bg-background">
@@ -27,6 +27,11 @@ const SocialProof = () => {
           <p className="font-body text-sm tracking-[0.2em] uppercase text-muted-foreground">
             {eyebrow}
           </p>
+          {trustLine && (
+            <p className="font-body text-muted-foreground mt-3 max-w-xl mx-auto">
+              {trustLine}
+            </p>
+          )}
         </motion.div>
 
         <motion.div

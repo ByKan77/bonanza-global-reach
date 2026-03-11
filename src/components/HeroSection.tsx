@@ -8,7 +8,7 @@ const HeroSection = () => {
   const hero = t.hero;
 
   return (
-    <section id="about" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-accent">
+    <section id="about" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-accent pt-28 md:pt-0">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -66,7 +66,7 @@ const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block"
       >
         <div className="w-px h-12 bg-gradient-to-b from-accent-foreground/30 to-transparent" />
       </motion.div>
