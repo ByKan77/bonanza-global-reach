@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { FlaskConical, Truck, ShieldCheck } from "lucide-react";
 
 import logoAllegiant from "@/assets/partenaires/ALLEGIANT_logo.png";
 import logoAlvogen from "@/assets/partenaires/Alvogen.png";
@@ -24,221 +22,205 @@ import logoHtn from "@/assets/partenaires/square-logo-htn.webp";
 import logoTeva from "@/assets/partenaires/Teva.png";
 import logoValeant from "@/assets/partenaires/Valeant.png";
 import logoZentiva from "@/assets/partenaires/Zentiva_Logo.jpg";
+import logoBonanza from "@/assets/logo_Bonanza/logoBonanzaOriginal.png";
 
-const PARTNER_LIST = [
-  { name: "Allegiant", logo: logoAllegiant, url: "http://allegiant-health.com/", category: "logistics" as const },
-  { name: "Alvogen", logo: logoAlvogen, url: "https://www.alvogen.com", category: "pharma" as const },
-  { name: "Angelini", logo: logoAngelini, url: "https://www.angelinipharma.com", category: "pharma" as const },
-  { name: "Chemo", logo: logoChemo, url: "https://www.insudpharma.com", category: "pharma" as const },
-  { name: "Doppel", logo: logoDoppel, url: "http://www.doppel.it/", category: "pharma" as const },
-  { name: "FinAid", logo: logoFinAid, url: "https://www.linkedin.com/company/finaid-llc", category: "logistics" as const },
-  { name: "Herkel", logo: logoHerkel, url: "https://www.royalherkel.com", category: "logistics" as const },
-  { name: "Hillestad", logo: logoHillestad, url: "https://www.hillestadlabs.com", category: "compliance" as const },
-  { name: "Italfarmaco", logo: logoItalfarmaco, url: "https://www.italfarmaco.com", category: "pharma" as const },
-  { name: "Jelfa", logo: logoJelfa, url: "https://www.jelfa.com.pl/", category: "pharma" as const },
-  { name: "Kevelt", logo: logoKevelt, url: "https://www.kevelt.ee", category: "logistics" as const },
-  { name: "Medtronic", logo: logoMedtronic, url: "https://www.medtronic.com", category: "compliance" as const },
-  { name: "Mucos", logo: logoMucos, url: "https://www.mucos.berlin", category: "pharma" as const },
-  { name: "NaturProdukt", logo: logoNaturProdukt, url: "https://www.natur-produkt.ru", category: "pharma" as const },
-  { name: "HTN", logo: logoHtn, url: "https://www.htnnaturally.com", category: "logistics" as const },
-  { name: "Teva", logo: logoTeva, url: "https://www.tevapharm.com", category: "pharma" as const },
-  { name: "Valeant", logo: logoValeant, url: "https://www.bauschhealth.com", category: "pharma" as const },
-  { name: "Zentiva", logo: logoZentiva, url: "https://www.zentiva.com", category: "pharma" as const },
+const BONANZA_AM = {
+  name: "Bonanza",
+  url: "https://www.bonanza.am",
+  logo: logoBonanza,
+};
+
+const OTHER_PARTNERS = [
+  { name: "Allegiant", logo: logoAllegiant, url: "http://allegiant-health.com/" },
+  { name: "Alvogen", logo: logoAlvogen, url: "https://www.alvogen.com" },
+  { name: "Angelini", logo: logoAngelini, url: "https://www.angelinipharma.com" },
+  { name: "Chemo", logo: logoChemo, url: "https://www.insudpharma.com" },
+  { name: "Doppel", logo: logoDoppel, url: "http://www.doppel.it/" },
+  { name: "FinAid", logo: logoFinAid, url: "https://www.linkedin.com/company/finaid-llc" },
+  { name: "Herkel", logo: logoHerkel, url: "https://www.royalherkel.com" },
+  { name: "Hillestad", logo: logoHillestad, url: "https://www.hillestadlabs.com" },
+  { name: "Italfarmaco", logo: logoItalfarmaco, url: "https://www.italfarmaco.com" },
+  { name: "Jelfa", logo: logoJelfa, url: "https://www.jelfa.com.pl/" },
+  { name: "Kevelt", logo: logoKevelt, url: "https://www.kevelt.ee" },
+  { name: "Medtronic", logo: logoMedtronic, url: "https://www.medtronic.com" },
+  { name: "Mucos", logo: logoMucos, url: "https://www.mucos.berlin" },
+  { name: "NaturProdukt", logo: logoNaturProdukt, url: "https://www.natur-produkt.ru" },
+  { name: "HTN", logo: logoHtn, url: "https://www.htnnaturally.com" },
+  { name: "Teva", logo: logoTeva, url: "https://www.tevapharm.com" },
+  { name: "Valeant", logo: logoValeant, url: "https://www.bauschhealth.com" },
+  { name: "Zentiva", logo: logoZentiva, url: "https://www.zentiva.com" },
 ];
 
-const HERO_BG = "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1920&q=80";
+// Bannière hero Partenaires (image + dégradé de secours si l'image ne charge pas)
+const HERO_BG =
+  "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1920&q=80&fit=crop";
 const WORLD_MAP_IMAGE = "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80";
 
-function AnimatedCounter({ value, label }: { value: string; label: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true });
-  const isPercent = value.endsWith("%");
-  const numericStr = isPercent ? value.slice(0, -1) : value;
-  const isNumeric = /^\d+$/.test(numericStr);
-  const [count, setCount] = useState(0);
-  const target = isNumeric ? parseInt(numericStr, 10) : 0;
-
-  useEffect(() => {
-    if (!inView || !isNumeric) return;
-    const duration = 1500;
-    const step = target / (duration / 16);
-    let current = 0;
-    const timer = setInterval(() => {
-      current += step;
-      if (current >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else setCount(Math.floor(current));
-    }, 16);
-    return () => clearInterval(timer);
-  }, [inView, isNumeric, target]);
-
-  const displayValue = isNumeric ? `${count}${isPercent ? "%" : ""}` : value;
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 12 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5 }}
-      className="text-center rounded-xl py-6 px-4 bg-background shadow-sm border border-border/50"
-    >
-      <div className="font-display text-2xl md:text-3xl font-light text-foreground">
-        {displayValue}
-      </div>
-      <div className="font-body text-sm text-muted-foreground mt-1">{label}</div>
-    </motion.div>
-  );
-}
+const MAP_POINTS = [
+  { id: "france", x: 195, y: 92, r: 12, label: "France", main: true },
+  { id: "georgia", x: 272, y: 98, r: 8, label: "Caucase" },
+  { id: "armenia", x: 282, y: 95, r: 7, label: "Arménie" },
+  { id: "turkey", x: 258, y: 88, r: 7, label: "Turquie" },
+  { id: "eu1", x: 185, y: 78, r: 6, label: "EU Nord" },
+  { id: "eu2", x: 175, y: 100, r: 6, label: "EU Ouest" },
+  { id: "eu3", x: 218, y: 85, r: 6, label: "EU Est" },
+  { id: "russia", x: 295, y: 75, r: 7, label: "Russie" },
+  { id: "kazakhstan", x: 318, y: 88, r: 6, label: "Asie centrale" },
+];
 
 const Partners = () => {
   const { t } = useLanguage();
   const p = t.partnersPage;
-  const [activeCategory, setActiveCategory] = useState<"pharma" | "logistics" | "compliance">("pharma");
-  const statsRef = useRef(null);
   const mapRef = useRef(null);
   const gridRef = useRef(null);
-  const certsRef = useRef(null);
-  const statsInView = useInView(statsRef, { once: true, margin: "-80px" });
   const mapInView = useInView(mapRef, { once: true, margin: "-80px" });
   const gridInView = useInView(gridRef, { once: true, margin: "-80px" });
-  const certsInView = useInView(certsRef, { once: true, margin: "-80px" });
 
-  const categories: { id: "pharma" | "logistics" | "compliance"; label: string; Icon: typeof FlaskConical }[] = [
-    { id: "pharma", label: p.categories.pharma, Icon: FlaskConical },
-    { id: "logistics", label: p.categories.logistics, Icon: Truck },
-    { id: "compliance", label: p.categories.compliance, Icon: ShieldCheck },
-  ];
+  const showStats = p.stats && p.stats.length > 0;
+  const showCerts = p.certifications?.items?.length > 0;
+  const showCta = p.ctaBanner && p.ctaButton;
 
-  const partnersByCategory = {
-    pharma: PARTNER_LIST.filter((x) => x.category === "pharma"),
-    logistics: PARTNER_LIST.filter((x) => x.category === "logistics"),
-    compliance: PARTNER_LIST.filter((x) => x.category === "compliance"),
-  };
+  const introParagraphs = p.intro ? p.intro.split("\n\n").filter(Boolean) : [];
+  const [heroImageError, setHeroImageError] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* Hero — même style que page À propos */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden pt-36 md:pt-40">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${HERO_BG})` }}
-        />
+      <section className="relative min-h-[40vh] sm:min-h-[50vh] flex items-center justify-center overflow-hidden pt-28 sm:pt-32 md:pt-40 pb-12 bg-gradient-to-br from-accent via-accent/95 to-primary/20">
+        {!heroImageError && (
+          <img
+            src={HERO_BG}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover object-center"
+            loading="eager"
+            referrerPolicy="no-referrer"
+            onError={() => setHeroImageError(true)}
+          />
+        )}
         <div className="absolute inset-0 bg-accent/80 backdrop-blur-[2px]" />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative z-10 max-w-4xl mx-auto px-6 text-center"
+          className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center"
         >
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-light text-white tracking-tight">
+          <h1 className="font-display text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-light text-white tracking-tight">
             {p.heroTitle}
           </h1>
-          <p className="font-body text-white/80 mt-6 text-lg max-w-2xl mx-auto leading-relaxed">
-            {p.heroSubtitle}
-          </p>
+          {p.heroSubtitle && (
+            <p className="font-body text-white/80 mt-4 sm:mt-6 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+              {p.heroSubtitle}
+            </p>
+          )}
         </motion.div>
       </section>
 
-      {/* Chiffres clés */}
-      <section ref={statsRef} className="py-20 md:py-28 px-6 bg-background">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={statsInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="font-display text-3xl md:text-4xl font-light text-foreground text-center mb-12"
-          >
-            {p.statsSectionTitle}
-          </motion.h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {p.stats.map((stat, i) => (
-              <AnimatedCounter key={i} value={stat.value} label={stat.label} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Carte écosystème — éclaircie */}
-      <section ref={mapRef} className="relative py-20 md:py-28 px-6 overflow-hidden bg-muted/30">
-        <div className="relative max-w-6xl mx-auto flex flex-col items-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={mapInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="font-display text-3xl md:text-4xl font-light text-foreground text-center mb-14"
-          >
-            {p.mapTitle}
-          </motion.h2>
+      <section ref={mapRef} className="relative py-14 sm:py-20 md:py-28 px-4 sm:px-6 overflow-hidden bg-muted/30">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:gap-12 lg:gap-16">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={mapInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="relative aspect-[2/1] max-h-[360px] w-full max-w-4xl rounded-xl overflow-hidden shadow-xl border border-border/50"
+            className="relative aspect-[2/1] md:aspect-[4/3] w-full md:flex-1 min-h-[280px] rounded-xl overflow-hidden shadow-xl border border-border/50 flex-shrink-0"
           >
             <img
               src={WORLD_MAP_IMAGE}
               alt=""
-              className="absolute inset-0 w-full h-full object-cover brightness-[0.55] contrast-110 grayscale"
+              className="absolute inset-0 w-full h-full object-cover brightness-[0.5] contrast-110 grayscale"
             />
             <div className="absolute inset-0 bg-accent/10" />
             <div className="absolute inset-0 flex items-center justify-center">
               <svg viewBox="0 0 400 200" className="w-full h-full text-primary drop-shadow-lg" preserveAspectRatio="xMidYMid meet">
                 <defs>
                   <filter id="glow-partners">
-                    <feGaussianBlur stdDeviation="1" result="coloredBlur" />
+                    <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
                     <feMerge>
                       <feMergeNode in="coloredBlur" />
                       <feMergeNode in="SourceGraphic" />
                     </feMerge>
                   </filter>
                 </defs>
-                <circle cx="200" cy="95" r="10" fill="currentColor" filter="url(#glow-partners)" className="animate-pulse" opacity="0.95" />
-                <circle cx="280" cy="85" r="6" fill="currentColor" opacity="0.85" />
-                <circle cx="320" cy="100" r="6" fill="currentColor" opacity="0.85" />
-                <circle cx="260" cy="120" r="6" fill="currentColor" opacity="0.85" />
-                <circle cx="300" cy="130" r="6" fill="currentColor" opacity="0.85" />
-                <line x1="200" y1="95" x2="280" y2="85" stroke="currentColor" strokeWidth="1.5" opacity="0.6" strokeLinecap="round" />
-                <line x1="200" y1="95" x2="320" y2="100" stroke="currentColor" strokeWidth="1.5" opacity="0.6" strokeLinecap="round" />
-                <line x1="200" y1="95" x2="260" y2="120" stroke="currentColor" strokeWidth="1.5" opacity="0.6" strokeLinecap="round" />
-                <line x1="200" y1="95" x2="300" y2="130" stroke="currentColor" strokeWidth="1.5" opacity="0.6" strokeLinecap="round" />
+                {MAP_POINTS.filter((pt) => !pt.main).map((pt) => (
+                  <g key={pt.id}>
+                    <line
+                      x1={MAP_POINTS.find((m) => m.main)!.x}
+                      y1={MAP_POINTS.find((m) => m.main)!.y}
+                      x2={pt.x}
+                      y2={pt.y}
+                      stroke="currentColor"
+                      strokeWidth="1.2"
+                      opacity="0.5"
+                      strokeLinecap="round"
+                    />
+                    <circle cx={pt.x} cy={pt.y} r={pt.r} fill="currentColor" opacity="0.9" />
+                  </g>
+                ))}
+                <circle
+                  cx={MAP_POINTS.find((m) => m.main)!.x}
+                  cy={MAP_POINTS.find((m) => m.main)!.y}
+                  r={MAP_POINTS.find((m) => m.main)!.r}
+                  fill="currentColor"
+                  filter="url(#glow-partners)"
+                  className="animate-pulse"
+                  opacity="0.95"
+                />
+                {MAP_POINTS.map((pt) => (
+                  <text
+                    key={pt.id}
+                    x={pt.x}
+                    y={pt.y + (pt.main ? -18 : 22)}
+                    textAnchor="middle"
+                    className="fill-foreground/90 text-[10px] font-body"
+                  >
+                    {pt.label}
+                  </text>
+                ))}
               </svg>
             </div>
             <p className="absolute bottom-4 left-1/2 -translate-x-1/2 font-body text-sm text-foreground/90">
-              France → Hubs Europe & Eurasie
+              France → Europe & Eurasie
             </p>
           </motion.div>
+          {introParagraphs.length > 0 && (
+            <div className="mt-8 sm:mt-10 md:mt-0 md:flex-1 space-y-3 sm:space-y-4 flex flex-col justify-center text-center md:text-left">
+              {introParagraphs.map((paragraph, i) => (
+                <p key={i} className="font-body text-sm sm:text-base text-muted-foreground leading-relaxed">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Grille partenaires par catégorie */}
-      <section ref={gridRef} className="py-20 md:py-28 px-6 bg-background">
+      <section ref={gridRef} className="py-14 sm:py-20 md:py-28 px-4 sm:px-6 bg-background">
         <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={gridInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="flex flex-wrap justify-center gap-3 border-b border-border pb-8 mb-12"
-          >
-            {categories.map(({ id, label, Icon }) => (
-              <button
-                key={id}
-                onClick={() => setActiveCategory(id)}
-                className={`flex items-center gap-2 font-body text-sm px-5 py-2.5 rounded-xl border transition-all ${
-                  activeCategory === id
-                    ? "border-border bg-primary/15 text-foreground shadow-sm"
-                    : "border-border/60 text-muted-foreground hover:border-border hover:text-foreground"
-                }`}
-              >
-                <Icon className="w-4 h-4" strokeWidth={1.5} />
-                {label}
-              </button>
-            ))}
-          </motion.div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 md:gap-8">
-            {partnersByCategory[activeCategory].map((partner, i) => (
+          <div className="flex flex-col items-center mb-10 sm:mb-14 text-center">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-light text-foreground">
+              {p.title}
+            </h2>
+            <div className="mt-2 sm:mt-3 w-12 sm:w-16 h-0.5 bg-primary rounded-full" aria-hidden />
+          </div>
+          <div className="mb-10 sm:mb-14">
+            <a
+              href={BONANZA_AM.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col items-center justify-center rounded-xl p-4 sm:p-5 md:p-6 bg-muted/50 border-2 border-primary/30 hover:border-primary/60 hover:shadow-lg transition-all duration-300 w-full max-w-[200px] sm:w-fit sm:max-w-none mx-auto"
+            >
+              {BONANZA_AM.logo ? (
+                <img src={BONANZA_AM.logo} alt={BONANZA_AM.name} className="max-h-14 sm:max-h-16 w-full max-w-[120px] sm:max-w-[140px] object-contain" />
+              ) : (
+                <span className="font-display text-xl sm:text-2xl md:text-3xl font-light text-foreground text-gradient-gold">
+                  {BONANZA_AM.name}
+                </span>
+              )}
+            </a>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5 md:gap-6 lg:gap-8">
+            {OTHER_PARTNERS.map((partner, i) => (
               <motion.a
                 key={partner.name}
                 href={partner.url}
@@ -246,14 +228,14 @@ const Partners = () => {
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 16 }}
                 animate={gridInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                className="group block rounded-xl p-6 bg-background shadow-sm border border-border/50 hover:shadow-md hover:border-primary/30 transition-all duration-300"
+                transition={{ duration: 0.4, delay: i * 0.04 }}
+                className="group block rounded-xl p-4 sm:p-5 md:p-6 bg-background shadow-sm border border-border/50 hover:shadow-md hover:border-primary/30 transition-all duration-300"
               >
                 <div className="aspect-[4/3] flex items-center justify-center">
                   <img
                     src={partner.logo}
                     alt={partner.name}
-                    className="max-h-20 w-full object-contain transition-all duration-300"
+                    className="max-h-14 sm:max-h-16 md:max-h-20 w-full object-contain transition-all duration-300"
                   />
                 </div>
               </motion.a>
@@ -262,53 +244,47 @@ const Partners = () => {
         </div>
       </section>
 
-      {/* Certifications & Normes — même style que section Valeurs À propos */}
-      <section ref={certsRef} className="py-20 md:py-28 px-6 bg-muted/40">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={certsInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="font-display text-3xl md:text-4xl font-light text-foreground text-center mb-12"
-          >
-            {p.certifications.title}
-          </motion.h2>
-          <ul className="flex flex-wrap justify-center gap-4">
-            {p.certifications.items.map((item, i) => (
-              <motion.li
-                key={i}
-                initial={{ opacity: 0, y: 12 }}
-                animate={certsInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="font-body text-muted-foreground px-5 py-3 rounded-xl bg-background shadow-sm border border-border/50"
-              >
-                {item}
-              </motion.li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      {showCerts && (
+        <section className="py-14 sm:py-20 md:py-28 px-4 sm:px-6 bg-muted/40">
+          <div className="max-w-6xl mx-auto">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="font-display text-2xl sm:text-3xl md:text-4xl font-light text-foreground text-center mb-8 sm:mb-12"
+            >
+              {p.certifications.title}
+            </motion.h2>
+            <ul className="flex flex-wrap justify-center gap-3 sm:gap-4">
+              {p.certifications.items.map((item: string, i: number) => (
+                <li key={i} className="font-body text-xs sm:text-sm text-muted-foreground px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-background shadow-sm border border-border/50">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
-      {/* CTA — même style que page À propos */}
-      <section className="py-16 px-6 bg-muted/30">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto text-center"
-        >
-          <p className="font-display text-2xl md:text-3xl font-light text-foreground mb-8">
-            {p.ctaBanner}
-          </p>
-          <a
-            href="/#contact"
-            className="inline-block font-body text-sm px-8 py-3.5 bg-primary text-primary-foreground rounded-sm hover:brightness-110 transition-all"
+      {showCta && (
+        <section className="py-12 sm:py-16 px-4 sm:px-6 bg-muted/30">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6 }}
+            className="max-w-3xl mx-auto text-center"
           >
-            {p.ctaButton}
-          </a>
-        </motion.div>
-      </section>
+            <p className="font-display text-xl sm:text-2xl md:text-3xl font-light text-foreground mb-6 sm:mb-8">{p.ctaBanner}</p>
+            <a
+              href="/#contact"
+              className="inline-block font-body text-sm px-6 sm:px-8 py-3 sm:py-3.5 bg-primary text-primary-foreground rounded-sm hover:brightness-110 transition-all"
+            >
+              {p.ctaButton}
+            </a>
+          </motion.div>
+        </section>
+      )}
 
       <Footer />
     </div>

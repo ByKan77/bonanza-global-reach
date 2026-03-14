@@ -15,20 +15,20 @@ const SocialProof = () => {
   const { eyebrow, stats, trustLine } = t.socialProof;
 
   return (
-    <section id="network" className="relative py-20 bg-background">
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="network" className="relative py-12 sm:py-16 md:py-20 bg-background">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-12"
         >
-          <p className="font-body text-sm tracking-[0.2em] uppercase text-muted-foreground">
+          <p className="font-body text-xs sm:text-sm tracking-[0.15em] sm:tracking-[0.2em] uppercase text-muted-foreground">
             {eyebrow}
           </p>
           {trustLine && (
-            <p className="font-body text-muted-foreground mt-3 max-w-xl mx-auto">
+            <p className="font-body text-sm sm:text-base text-muted-foreground mt-2 sm:mt-3 max-w-xl mx-auto px-2">
               {trustLine}
             </p>
           )}
@@ -39,7 +39,7 @@ const SocialProof = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-6 md:gap-10"
+          className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-10"
         >
           {certifications.map((cert, i) => (
             <motion.div
@@ -48,9 +48,9 @@ const SocialProof = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 * i }}
-              className="glass-panel-subtle px-6 py-3 rounded-sm"
+              className="glass-panel-subtle px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 rounded-sm"
             >
-              <span className="font-display text-sm font-light tracking-wider text-muted-foreground">
+              <span className="font-display text-xs sm:text-sm font-light tracking-wider text-muted-foreground">
                 {cert}
               </span>
             </motion.div>
@@ -62,14 +62,14 @@ const SocialProof = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
+          className="mt-12 sm:mt-16 md:mt-20 grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4 text-center"
         >
           {stats.map((stat) => (
-            <div key={stat.label}>
-              <div className="font-display text-3xl md:text-4xl font-light text-gradient-gold mb-2">
+            <div key={stat.label} className="flex flex-col items-center justify-center">
+              <div className="font-display text-2xl sm:text-3xl md:text-4xl font-light text-gradient-gold mb-1 sm:mb-2">
                 {stat.value}
               </div>
-              <div className="font-body text-sm text-muted-foreground">
+              <div className="font-body text-xs sm:text-sm text-muted-foreground">
                 {stat.label}
               </div>
             </div>
